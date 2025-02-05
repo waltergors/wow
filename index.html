@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultima Values</title>
+	<link rel="icon" href="img/logo2.png" type="img/png">
+	
+    <style>
+	
+	.heading{
+		-webkit-text-stroke: 1px black;
+		width: 99.4%;
+		height: 50px;
+		justify-content: center;
+        align-items: center;
+	}
+	
+	#TopButton{
+		color: black;
+		-webkit-text-stroke: 1px black;
+		font-weight: bold;
+		width: 24%;
+		height: 50px;
+		border: 4px solid black;
+		background: #0394fc;
+		font-size: 20px;
+	}
+
+	    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      display: none;
+    }
+
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .popup-header .close-icon {
+      width: 25px;
+      height: 25px;
+      border: 2px solid #ff5e57;
+      border-radius: 50%;
+      color: #ff5e57;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-weight: bold;
+    }
+		.footer {
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            background-color: ;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: black;
+			-webkit-text-stroke: 1px black;
+			margin-bottom: 5px;
+			margin-top: 95px;
+		}
+        .outlined-text {
+            font-size: 60px;
+            color: black; /* Inner text color */
+            -webkit-text-stroke: 2px black; /* Outline thickness and color */
+            font-weight: bold;
+        }
+        body {
+ 	    background: linear-gradient(to top right, #c6e6ff, #b9f9ff, #c9e3ff, #a4dfff, #afe6ff);
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        #filterButtons {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .filter-btn {
+            padding: 12px 25px;
+            margin: 0 10px;
+            background-color: red;
+            color: black;
+            border:  3px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+			-webkit-text-stroke: 1px black;
+        }
+
+        .filter-btn.active {
+            background-color: green; /* Green when active */
+        }
+
+        #itemContainer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: space-evenly;
+            padding: 20px;
+        }
+
+        .item {
+	    color: black;
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 340px;
+            box-sizing: border-box;
+  	    background: #0394fc;
+            border: 4px solid black;
+            font-family: 'Poppins', sans-serif;
+	    font-size: 17px;
+        }
+
+.textlabel {
+	    color: black;
+	    font-size: 30px;
+		-webkit-text-stroke: 2px black;
+        }
+		
+        .item img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .item-info {
+            line-height: 1.5;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        #searchBar {
+            width: 800px;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 20px;
+	    background: white;
+            border: 4px solid black;
+        }
+    </style>
+</head>
+<body>
+<div>
+	<div class="heading">
+		<button id="TopButton" onclick="openTradeMenu()">Trade Calculator</button>
+		<button id="TopButton" onclick="openIventory()">Open Your Inventory</button>
+		<button id="TopButton" onclick="contactme()">Contact Me</button>
+		<button id="TopButton" onclick="openDiscord()">Join Our Discord</button>
+		</div>
+		
+	<div> <div> <strong> NOT ACCURATE DM @WALTERONFIRE DISCORD!</strong> </div>
+</div>
+    <img src="img/SiteLogo.png" alt="Site Logo" class="sidebar-logo">
+</div>
+    <input type="text" id="searchBar" placeholder="Search for items..." onkeyup="filterItems()" style="width: 800px; padding: 10px; margin-bottom: 20px; border-radius: 20px;">
+    <!-- Filter Buttons -->
+    <div id="filterButtons">
+        <button id="normalBtn" onclick="toggleFilter('normal')" class="filter-btn">Normal</button>
+        <button id="goldBtn" onclick="toggleFilter('gold')" class="filter-btn">Golden</button>
+        <button id="rainbowBtn" onclick="toggleFilter('rainbow')" class="filter-btn">Rainbow</button>
+		<button id="exclusiveBtn" onclick="toggleFilter('exclusive')" class="filter-btn">Exclusives</button>
+		<button id="eggBtn" onclick="toggleFilter('egg')" class="filter-btn">Eggs</button>
+		<button id="shinyBtn" onclick="toggleShiny()" class="filter-btn">Shiny</button>
+    </div>
+</div>
+
+    <div id="itemContainer">
+        <!-- Kings -->
+
+        <div class="item" id="product1">
+            <img src="img/HugeDizzy.png" alt="Item 2">
+            <div class="item-info">
+                <strong>Normal King Dizzy Lovely Bee<br>
+                RAP: 450K<br>
+                OFFERS: 400K-450K<br>
+                DEMAND: Very High<br>
+                VALUECHANGES: High
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product2">
+            <img src="img/GoldHugeDizzy.png" alt="Item 2">
+            <div class="item-info">
+                <strong>Golden King Dizzy Lovely Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product3">
+            <img src="img/HugeDizzy.png" alt="Item 3">
+            <div class="item-info">
+                <strong>Rainbow King Dizzy Lovely Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product4">
+            <img src="img/HugeDizzy.png" alt="Item 4">
+            <div class="item-info">
+                <strong>Shiny Normal King Dizzy Lovely Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product5">
+            <img src="img/HugeShade.png" alt="Item 7">
+            <div class="item-info">
+                <strong>Normal King Shade Bee<br>
+                RAP: 625k<br>
+                OFFERS: 600K-650K<br>
+                DEMAND: Very High <br>
+				VALUECHANGES: High <br>
+</strong>
+            </div>
+        </div>
+		
+        <div class="item" id="product7">
+            <img src="img/GoldHugeShade.png" alt="Item 8">
+            <div class="item-info">
+                <strong>Golden King Shade Bee<br>
+                RAP: 2M<br>
+                OFFERS: 1.8M-2.1M<br>
+                DEMAND: Low
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product8">
+            <img src="img/RainbowHugeShade.png" alt="Item 9">
+            <div class="item-info">
+                <strong>Rainbow King Shade Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product9">
+            <img src="img/HugeShade.png" alt="Item 10">
+            <div class="item-info">
+                <strong>Shiny Normal King Shade Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+		
+        <div class="item" id="product6">
+            <img src="img/ShinyRainshade.png" alt="Item 7">
+            <div class="item-info">
+                <strong>Shiny Rainbow King Shade Bee<br>
+                RAP: O/C<br>
+                OFFERS: ?<br>
+                DEMAND: Low <br>
+				VALUECHANGES: Medium
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product10">
+            <img src="img/HugeLava.png" alt="Item 13">
+            <div class="item-info">
+                <strong>Normal King Eruption Bee<br>
+                RAP: 2M<br>
+                OFFERS: 1.95M-2.15M<br>
+                DEMAND: Medium<br>
+				VALUECHANGES: Medium
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product11">
+            <img src="img/GoldHugeLava.png" alt="Item 14">
+            <div class="item-info">
+                <strong>Golden King Eruption Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product12">
+            <img src="img/HugeLava.png" alt="Item 15">
+            <div class="item-info">
+                <strong>Rainbow King Eruption Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product12">
+            <img src="img/HugeLava.png" alt="Item 16">
+            <div class="item-info">
+                <strong>Shiny Normal King Eruption Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product13">
+            <img src="img/HugeTime.png" alt="Item 19">
+            <div class="item-info">
+                <strong>Normal King Timeless Bee<br>
+                RAP: 750K<br>
+                OFFERS: 675K-850K<br>
+                DEMAND: Medium<br>
+				VALUECHANGES: Medium
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product14">
+            <img src="img/GoldenHugeTime.png" alt="Item 20">
+            <div class="item-info">
+                <strong>Golden King Timeless Bee<br>
+                RAP: 2.35M<br>
+                OFFERS: 2.2M-2.4M<br>
+                DEMAND: Very Low
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product15">
+            <img src="img/HugeTime.png" alt="Item 21">
+            <div class="item-info">
+                <strong>Rainbow King Timeless Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product16">
+            <img src="img/HugeTime.png" alt="Item 22">
+            <div class="item-info">
+                <strong>Shiny Normal King Timeless Bee<br>
+                RAP: ?<br>
+                OFFERS: ?<br>
+                DEMAND: ?
+</strong>
+            </div>
+        </div>
+
+        <div class="item" id="product17">
+            <img src="img/ShinyGoldTime.png" alt="Item 22">
+            <div class="item-info">
+                <strong>Shiny Gold King Timeless Bee<br>
+                RAP: O/C<br>
+                OFFERS: 40M-60M<br>
+                DEMAND: Low
+</strong>
+            </div>
+        </div>
+
+<div class="item" id="product18">
+    <img src="img/HugeQueen.png" alt="Item 25">
+    <div class="item-info">
+        <strong>Normal King Queen Bee<br>
+        RAP: 1.75M<br>
+        OFFERS: 1.7M-1.85M<br>
+        DEMAND: High<br>
+		VALUECHANGES: Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product19">
+    <img src="img/GoldHugeQueen.png" alt="Item 26">
+    <div class="item-info">
+        <strong>Golden King Queen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product20">
+    <img src="img/RainHugeQueen.png" alt="Item 27">
+    <div class="item-info">
+        <strong>Rainbow King Queen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product21">
+    <img src="img/HugeQueen.png" alt="Item 28">
+    <div class="item-info">
+        <strong>Shiny Normal King Queen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product22">
+    <img src="img/WaterHuge.png" alt="Item 31">
+    <div class="item-info">
+        <strong>Normal King Whirpool Bee<br>
+        RAP: 2M<br>
+        OFFERS: 1.95M-2.15M<br>
+        DEMAND: High<br>
+		VALUECHANGES: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product23">
+    <img src="img/GoldWaterHuge.png" alt="Item 32">
+    <div class="item-info">
+        <strong>Golden King Whirpool Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product24">
+    <img src="img/WaterHuge.png" alt="Item 31">
+    <div class="item-info">
+        <strong>Rainbow King Whirpool Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product25">
+    <img src="img/WaterHuge.png" alt="Item 34">
+    <div class="item-info">
+        <strong>Shiny Normal King Whirpool Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product26">
+    <img src="img/HugeTriangle.png" alt="Item 37">
+    <div class="item-info">
+        <strong>Normal King Guard Bee<br>
+        RAP: 2.9M<br>
+        OFFERS: 2.8M-3.1M<br>
+        DEMAND: High<br>
+		VALUECHANGES: Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product27">
+    <img src="img/GoldHugeTriangle.png" alt="Item 38">
+    <div class="item-info">
+        <strong>Golden King Guard Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product1">
+    <img src="img/HugeTriangle.png" alt="Item 39">
+    <div class="item-info">
+        <strong>Rainbow King Guard Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product28">
+    <img src="img/HugeTriangle.png" alt="Item 40">
+    <div class="item-info">
+        <strong>Shiny Normal King Guard Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product29">
+    <img src="img/HugeDark.png" alt="Item 43">
+    <div class="item-info">
+        <strong>Normal King Dark Vicious Bee<br>
+        RAP: 1.95M<br>
+        OFFERS: 1.9M-2.1M<br>
+        DEMAND: Medium<br>
+		VALUECHANGES: Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product30">
+    <img src="img/GoldenHugeDark.png" alt="Item 44">
+    <div class="item-info">
+        <strong>Golden King Dark Vicious Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product31">
+    <img src="img/HugeDark.png" alt="Item 45">
+    <div class="item-info">
+        <strong>Rainbow King Dark Vicious Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product32">
+    <img src="img/HugeDark.png" alt="Item 46">
+    <div class="item-info">
+        <strong>Shiny Normal King Dark Vicious Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product33">
+    <img src="img/HugeStorm.png" alt="Item 49">
+    <div class="item-info">
+        <strong>Normal King Storm Bee<br>
+        RAP: 2.9M<br>
+        OFFERS: 2.75M-3.2M<br>
+        DEMAND: Low<br>
+		VALUECHANGES: Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product34">
+    <img src="img/GoldHugeStorm.png" alt="Item 50">
+    <div class="item-info">
+        <strong>Golden King Storm Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product35">
+    <img src="img/HugeStorm.png" alt="Item 51">
+    <div class="item-info">
+        <strong>Rainbow King Storm Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product36">
+    <img src="img/HugeStorm.png" alt="Item 52">
+    <div class="item-info">
+        <strong>Shiny Normal King Storm Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product37">
+    <img src="img/HugeSquare.png" alt="Item 55">
+    <div class="item-info">
+        <strong>Normal King Masked Bee<br>
+        RAP: 3.8M<br>
+        OFFERS: 3.55M-4.15M<br>
+        DEMAND: Very High<br>
+		VALUECHANGES: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product38">
+    <img src="img/GoldHugeSquare.png" alt="Item 56">
+    <div class="item-info">
+        <strong>Golden King Masked Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product39">
+    <img src="img/HugeSquare.png" alt="Item 57">
+    <div class="item-info">
+        <strong>Rainbow King Masked Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product40">
+    <img src="img/HugeSquare.png" alt="Item 58">
+    <div class="item-info">
+        <strong>Shiny Normal King Masked Bee<br>
+        RAP: 7.5m<br>
+        OFFERS: 6.8M-7.9M<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product41">
+    <img src="img/HugeThunder.png" alt="Item 61">
+    <div class="item-info">
+        <strong>Normal King Thunder Bee<br>
+        RAP: 4.85M <br>
+        OFFERS: 4.8M-5.2M<br>
+        DEMAND: Medium<br>
+		VALUECHANGES: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product42">
+    <img src="img/GoldHugeThunder.png" alt="Item 62">
+    <div class="item-info">
+        <strong>Golden King Thunder Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product43">
+    <img src="img/HugeThunder.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Thunder Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product44">
+    <img src="img/HugeThunder.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Thunder Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product45">
+    <img src="img/PinkHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Cupcake Bee<br>
+        RAP: 4M<br>
+        OFFERS: 3.9M-4.5M<br>
+        DEMAND: Very High<br>
+		VALUECHANGES: Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product46">
+    <img src="img/GoldPinkHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Cupcake Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product47">
+    <img src="img/PinkHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Cupcake Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product48">
+    <img src="img/PinkHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Cupcake Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/HugePurpleStar.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Star Bee<br>
+        RAP: 1.5M<br>
+        OFFERS: 1.45M-1.6M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/HugePurpleStar.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Star Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugePurpleStar.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Star Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/stitHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Stitchy Bee<br>
+        RAP: 3.6M<br>
+        OFFERS: 3.45M-3.6M<br>
+        DEMAND: Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/stitHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Stitchy Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/stitHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Stitchy Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/HugeSlime.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Slimey Bee<br>
+        RAP: 1.8M<br>
+        OFFERS: 1.75M-1.9M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/HugeSlime.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Slimey Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugeSlime.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Slimey Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugeSlime.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Slimey Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Darky Bee<br>
+        RAP: Coming Soon<br>
+        OFFERS: Coming Soon<br>
+        DEMAND: Coming Soon
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Darky Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Darky Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Darky Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/BraveHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Brave Goo Bee<br>
+        RAP: 2.2M<br>
+        OFFERS: 2.1M-2.3M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/BraveHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Brave Goo Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/BraveHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Brave Goo Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/BraveHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Brave Goo Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/HugeSad.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Sad Player Bee<br>
+        RAP: 2.9M<br>
+        OFFERS: 2.85M-3.1M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/HugeSad.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Sad Player Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugeSad.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Sad Player Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugeSad.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Sad Player Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/HugeFlame.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Eternal Flame Bee<br>
+        RAP: 1.35M<br>
+        OFFERS: 1.35M-1.5M<br>
+        DEMAND: Good
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/HugeFlame.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Eternal Flame Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugeFlame.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Eternal Flame Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugeFlame.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Eternal Flame Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/VisHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Vixcious Bee<br>
+        RAP: 2.15M<br>
+        OFFERS: 2.1M-2.2M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/VisHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Vixcious Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/VisHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Vixcious Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/VisHuge.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Vixcious Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Roboty Bee<br>
+        RAP: Coming Soon<br>
+        OFFERS: Coming Soon<br>
+        DEMAND: Coming Soon
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Roboty Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Roboty Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Roboty Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Frozen Bee<br>
+        RAP: Coming Soon<br>
+        OFFERS: Coming Soon<br>
+        DEMAND: Coming Soon
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Frozen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Frozen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/cross.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Frozen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/HugePollen.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Pollen Bee<br>
+        RAP: 1.4M<br>
+        OFFERS: 1.35M-1.5M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product50">
+    <img src="img/HugePollen.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Gold King Pollen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugePollen.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Rainbow King Pollen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product49">
+    <img src="img/HugeDragon.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Normal King Dragon Bee<br>
+        RAP: O/C<br>
+        OFFERS: Coming Soon<br>
+        DEMAND: Coming Soon
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product51">
+    <img src="img/HugePollen.png" alt="Item 63">
+    <div class="item-info">
+        <strong>Shiny Normal King Pollen Bee<br>
+        RAP: ?<br>
+        OFFERS: ?<br>
+        DEMAND: ?
+</strong>
+    </div>
+</div>
+<!-- Eggs -->
+<div class="item" id="product56">
+    <img src="img/OtherLandsEgg.png" alt="Item 65">
+    <div class="item-info">
+        <strong>OtherLands Egg<br>
+        RAP: 250K<br>
+        OFFERS: 250K-275<br>
+        DEMAND: Very High
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product56">
+    <img src="img/SquidEgg2.png" alt="Item 65">
+    <div class="item-info">
+        <strong>Squid Game 2 Egg<br>
+        RAP: 250k<br>
+        OFFERS: 250K-275K<br>
+        DEMAND: Very High
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product56">
+    <img src="img/SquidEgg.png" alt="Item 65">
+    <div class="item-info">
+        <strong>Squid Game Egg<br>
+        RAP: 300k<br>
+        OFFERS: 250K-300K<br>
+        DEMAND: Very High
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product57">
+    <img src="img/HeavenEgg.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Angelic Egg<br>
+        RAP: 300k<br>
+        OFFERS: 250K-300K<br>
+        DEMAND: Very High
+</strong>
+    </div>
+</div>
+<!-- Exlusives -->
+<div class="item" id="product58">
+    <img src="img/SkyBee.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive Sky Bee<br>
+        RAP: 12.5k<br>
+        OFFERS: 8K-17.5K<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product59">
+    <img src="img/CloudBee.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive Cloud Bee<br>
+        RAP: 12.5k<br>
+        OFFERS: 8K-17.5K<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product60">
+    <img src="img/TriangleBee.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive Guard Bee<br>
+        RAP: 12.5k<br>
+        OFFERS: 8K-17.5K<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product61">
+    <img src="img/PlayerBee.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive Player Basic Bee<br>
+        RAP: 10k<br>
+        OFFERS: 10K-12.5K<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product62">
+    <img src="img/SquareBee.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive Masked Bee<br>
+        RAP: 15k<br>
+        OFFERS: 12.5K-14.5K<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product63">
+    <img src="img/StormBee.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive Storm Bee<br>
+        RAP: 20k<br>
+        OFFERS: 17.5K-22.5K<br>
+        DEMAND: Very Low
+</strong>
+    </div>
+</div>
+
+<div class="item" id="product64">
+    <img src="img/As1cs.png" alt="Item 66">
+    <div class="item-info">
+        <strong>Exclusive As1cs Bee<br>
+        RAP: O/C:<br>
+        OFFERS: 10M-50M<br>
+        DEMAND: Medium
+</strong>
+    </div>
+</div>
+
+    <div class="footer">
+	Rap incorrect Dm @walter on discord!<br>
+        Made by Scorpion Games!
+    </div>
+
+</strong>
+<script src="discordButton.js"></script>
+<script src="ButtonsScript.js"></script>
+<script src="contactme.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+
